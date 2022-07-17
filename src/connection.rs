@@ -199,12 +199,12 @@ impl Connection {
 
             log::trace!("Setting up TLS parameters for {}.", self.request.host);
             let dns_name = &self.request.host;
-            /*
             let mut builder = TlsConnector::builder();
-            ...
+            // Trust self signed certs by default
+            builder.danger_accept_invalid_certs(true);
+            // Accept invalid hostnames by default
+            builder.danger_accept_invalid_hostnames(true);
             let sess = match builder.build() {
-            */
-            let sess = match TlsConnector::new() {
                 Ok(sess) => sess,
                 Err(err) => return Err(Error::IoError(io::Error::new(io::ErrorKind::Other, err))),
             };
